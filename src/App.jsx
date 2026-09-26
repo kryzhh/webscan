@@ -1,15 +1,15 @@
-import NavBar from "../components/NavBar"
+import Footer from "../components/Footer"
 
 
 function App() {
   return (
   <>
-  <NavBar/>
 
   <div className="px-36 pt-20">
-    <p className="text-[#f0f0f0] text-4xl font-mono tracking-tight font-semibold">Vulnerability Scanner</p>
-    <p className="text-[#888888] mt-5 tracking-wider w-180">Enter an IP address or URL to scan for common security vulnerabilities. Results are for informational purposes only.</p>
+    <p className="text-foreground text-4xl font-mono tracking-tight font-semibold">Vulnerability Scanner</p>
+    <p className="text-muted-foreground mt-5 tracking-wider w-180">Enter an IP address or URL to scan for common security vulnerabilities. Results are for informational purposes only.</p>
   </div>
+  <Footer/>
   </>
   )
 }
