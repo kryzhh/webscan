@@ -12,7 +12,14 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
 }
+@theme {
+  --animate-slide: slide 1.4s ease-in-out infinite;
 
+  @keyframes slide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(300%); }
+  }
+}
 :root {
   --background: #f8f8f8;
   --foreground: #0a0a0a;
