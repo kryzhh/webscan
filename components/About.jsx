@@ -2,10 +2,10 @@
 
 const HIWCard = ({ pos, title, desc }) => {
   return (
-    <div className={`bg-card ${pos === 2 ? "border-l" : "border-r"} border-border w-fit space-y-2 p-5`}>
+    <div className={`bg-card ${pos === 2 ? "border-l" : "border-r"} border-border w-68 space-y-2 p-5`}>
       <p className="font-mono text-3xl text-accent tracking-wide">0{pos + 1}</p>
       <p className="font-mono text-foreground tracking-wide">{title}</p>
-      <p className="text-muted-foreground text-xs w-64 tracking-wide">{desc}.</p>
+      <p className="text-muted-foreground text-xs tracking-wide">{desc}.</p>
     </div>
   )
 }
@@ -35,15 +35,15 @@ const About = () => {
   ]
 
   return (
-    <div className='pt-20 px-36'>
+    <div className='pt-20 px-36 max-[850px]:px-18 max-[530px]:px-5'>
       <p className='font-mono text-4xl text-foreground font-bold'>About WebScan</p>
-      <p className='text-muted-foreground mt-3 w-176 text-justify'>WebScan is a lightweight, client-side vulnerability scanner built for security engineers, developers and system administrators who need fast insight into their exposure surface without standing up complex tooling.</p>
+      <div className='text-muted-foreground w-152 max-[950px]:w-132 mt-3 text-justify text-sm'>WebScan is a lightweight, client-side vulnerability scanner built for security engineers, developers and system administrators who need fast insight into their exposure surface without standing up complex tooling.</div>
       <p className='uppercase text-muted-foreground font-mono text-sm mt-13 mb-4'>how it works</p>
 
-      <div className="flex justify-start items-center">
+      <div className="flex items-stretch">
         {
           CardsData.map((ele, pos) => {
-            return <HIWCard pos={pos} title={ele[0]} desc={ele[1]} />
+            return <HIWCard pos={pos} title={ele[0]} desc={ele[1]} key={pos}/>
           })
         }
       </div>

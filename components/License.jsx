@@ -30,7 +30,7 @@ const Disclaimer = () => {
 
 const License = () => {
   return (
-    <div className="px-36 pt-20">
+    <div className="px-36 pt-20 max-[850px]:px-18 max-[530px]:px-5">
       <div className="mb-10">
         <p className="font-mono text-foreground text-4xl font-bold">License</p>
         <p className="font-mono text-muted-foreground mt-1 text-sm">MIT License — WebScan</p>
