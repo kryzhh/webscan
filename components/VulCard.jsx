@@ -11,7 +11,7 @@ const VulCard = () => {
         <p className='text-foreground'>Open Port 22 — SSH Exposed</p>
         <button className="text-accent uppercase font-mono cursor-pointer border border-accent hover:bg-accent hover:text-accent-foreground transition-all text-sm py-1 px-3" onClick={() => { setLinks(!Links) }}>{Links ? "close" : "view fix"}</button>
       </div>
-      <div className={`font-mono uppercase text-accent text-sm underline ${Links ? "flex" : "hidden"} justify-start items-center space-x-5 bg-muted py-2 px-5 border border-x-border border-b-border border-t-0`}>
+      <div className={`font-mono uppercase text-accent text-sm underline ${Links ? "flex" : "hidden"} justify-start items-center space-x-5 max-[500px]:space-x-0 max-[500px]:flex-col max-[500px]:space-y-3 max-[500px]:items-start bg-muted py-2 px-5 border border-x-border border-b-border border-t-0`}>
         <p className='cursor-pointer'>↗ link 1</p>
         <p className='cursor-pointer'>↗ link 2</p>
       </div>
