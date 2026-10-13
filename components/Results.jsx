@@ -10,7 +10,7 @@ const Results = () => {
       <div className='max-h-100 overflow-y-scroll pr-5'>
         {
           Array.isArray(Logs)?Logs.map((ele, pos) => {
-            return <VulCard text={ele} key={pos} />
+            return <VulCard text={ele.log} key={pos} />
           }):""
         }
       </div>

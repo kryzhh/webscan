@@ -15,7 +15,7 @@ function App() {
         <div className="w-241 max-[1345px]:w-200 max-[1135px]:w-150 max-[745px]:w-full">
           <Form />
           <div className="min-h-38">
-            {/* <LoadingBar Loading={Loading}/> */}
+            <LoadingBar Loading={Loading}/>
             <Results />
           </div>
         </div>

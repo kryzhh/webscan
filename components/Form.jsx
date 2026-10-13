@@ -18,23 +18,23 @@ const Form = () => {
 
   const submit = async(e) => {
     e.preventDefault();
-    if (!(ipRegex.test(Data.URL) && portRegex.test(Data.port))) {
+    if (!(ipRegex.test(Data.URL) && Data.port!==""?portRegex.test(Data.port):true)) {
       setValidation(true)
       setTimeout(() => {
         setValidation(false)
       }, 3000);
     }
     else {
-      console.log(Data)
-      // setLoading(true)
-      // const resp = await fetch("http://127.0.0.1:5000/Logs", {
-      //   method: "POST",
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ Data })
-      // })
-      // const jsonResp = await resp.json()
-      // setLogs(jsonResp.logs)
-      // setLoading(false)
+      // console.log(Data)
+      setLoading(true)
+      const resp = await fetch("http://127.0.0.1:5000/Logs", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ Data })
+      })
+      const jsonResp = await resp.json()
+      setLogs(jsonResp.logs)
+      setLoading(false)
     }
   }
   return (
