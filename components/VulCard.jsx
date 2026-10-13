@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 
-const VulCard = () => {
+const VulCard = ({text}) => {
   const [Links, setLinks] = useState(false);
 
 

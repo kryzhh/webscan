@@ -8,6 +8,7 @@ import About from '../components/About.jsx';
 import License from '../components/License.jsx';
 import Layout from '../components/Layout.jsx';
 import SplashScreen from '../components/SplashScreen.jsx';
+import ContextState from '../context/ContextState.jsx';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,6 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ContextState><RouterProvider router={router} /></ContextState>
   </StrictMode>,
 )

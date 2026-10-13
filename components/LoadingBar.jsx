@@ -1,13 +1,13 @@
 
 
-const LoadingBar = () => {
+const LoadingBar = ({Loading}) => {
     return (
-        <>
+        <div className={!Loading?"hidden":""}>
             <p className="text-muted-foreground font-mono text-sm mb-2">Scanning...</p>
             <div className="w-4/5 h-0.5 bg-border overflow-hidden max-[745px]:w-full">
                 <div className="w-1/3 h-full bg-accent animate-slide" ></div>
             </div>
-        </>
+        </div>
     )
 }
 
