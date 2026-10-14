@@ -9,7 +9,7 @@ WebScan is a Python and React based GUI wrapper for Nikto. It is powered by Dock
 
 > [!IMPORTANT]
 > Make sure to download Docker/Podman.
-> Make sure to get a openrouter API key, by signing up on https://openrouter.ai/
+> Make sure to get an openrouter API key, by signing up on https://openrouter.ai/
 
 ## Requirements:
 - Python 3.10+
