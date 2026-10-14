@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import ReturnExpl from "./FetchVul"
+import ContextInit from "../context/ContextInit"
 
 
 const TextLoading = ({ TextIsLoading }) => {
@@ -16,15 +17,16 @@ const VulCard = ({ text }) => {
   const [ExplanationOpen, setExplanationOpen] = useState(false);
   const [Explanation, setExplanation] = useState(null);
   const [TextIsLoading, setTextIsLoading] = useState(false);
+  const { APIKEY } = useContext(ContextInit);
 
   const FetchExplanation = async () => {
-    if (typeof Explanation === 'object' && Explanation!==null) {
-      setExplanationOpen(prev=>!prev);
+    if (typeof Explanation === 'object' && Explanation !== null) {
+      setExplanationOpen(prev => !prev);
     }
     else {
       setTextIsLoading(true)
       setExplanationOpen(true)
-      const resp = await ReturnExpl(text);
+      const resp = await ReturnExpl(text, APIKEY);
       setExplanation(resp);
       setTextIsLoading(false)
     }
@@ -40,11 +42,11 @@ const VulCard = ({ text }) => {
         <p className='text-accent text-xs tracking-wider font-mono'>[ AI EXPLANATION ]</p>
         <TextLoading TextIsLoading={TextIsLoading} />
         {
-          ["meaning","risk","fix"].map((ele,pos)=>{
-            return <div key={pos} className={`text-card-foreground ${TextIsLoading ? "hidden" : ""}`}> <strong>{ele.replace(ele[0],ele[0].toUpperCase())}</strong>: {Explanation?.[ele]}</div>
+          ["meaning", "risk", "fix"].map((ele, pos) => {
+            return <div key={pos} className={`text-card-foreground ${TextIsLoading ? "hidden" : ""}`}> <strong>{ele.replace(ele[0], ele[0].toUpperCase())}</strong>: {Explanation?.[ele]}</div>
           })
         }
-        
+
         <p className='text-muted-foreground text-sm font-mono'>Verify recommendations from a cybersec expert before applying any changes.</p>
 
       </div>

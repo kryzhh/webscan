@@ -1,12 +1,11 @@
 import { OpenRouter } from "@openrouter/sdk";
 
-const openrouter = new OpenRouter({
-    apiKey: import.meta.env.VITE_OPENROUTER_API_KEY
-});
 
 
-
-const ReturnExpl = async (log) => {
+const ReturnExpl = async (log,key) => {
+    const openrouter = new OpenRouter({
+        apiKey: key
+    });
     const content = `
 You are a cybersecurity assistant that explains Nikto web vulnerability scan logs to non-technical users.
 
