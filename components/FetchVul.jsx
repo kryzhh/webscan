@@ -2,7 +2,7 @@ import { OpenRouter } from "@openrouter/sdk";
 
 
 
-const ReturnExpl = async (log,key) => {
+const ReturnExpl = async (log, key) => {
     const openrouter = new OpenRouter({
         apiKey: key
     });
@@ -34,21 +34,29 @@ Analyze the following Nikto log and explain it using simple, everyday language t
 ${log}
 
 `
-    const response = await openrouter.chat.send({
-        chatRequest: {
-            model: "openrouter/free",
-            messages: [
-                {
-                    role: "user",
-                    content: content
-                }
-            ],
-            stream: false
-        }
-    });
+    try {
+        const response = await openrouter.chat.send({
+            chatRequest: {
+                model: "openrouter/free",
+                messages: [
+                    {
+                        role: "user",
+                        content: content
+                    }
+                ],
+                stream: false
+            }
+        });
 
-    const text = JSON.parse(response.choices[0]?.message?.content)
-    return text;
+        const text = JSON.parse(response.choices[0]?.message?.content)
+        return text;
+    } catch (error) {
+        return ({
+            "meaning":"Server error! Re-Scan or try another",
+            "risk":"Server error! Re-Scan or try another",
+            "fix":"Server error! Re-Scan or try another"
+        })
+    }
 }
 
 export default ReturnExpl;

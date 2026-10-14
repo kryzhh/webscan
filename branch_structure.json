@@ -1,0 +1,30 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "frontend_new",
+    "frontend_old",
+    "krish",
+    "main",
+    "old-main",
+    "staging",
+    "vaibhav"
+  ],
+  "parent": {
+    "frontend_new": "main",
+    "frontend_old": "main",
+    "krish": "main",
+    "main": null,
+    "old-main": "main",
+    "staging": "main",
+    "vaibhav": "main"
+  },
+  "order": [
+    "main",
+    "frontend_new",
+    "frontend_old",
+    "krish",
+    "old-main",
+    "staging",
+    "vaibhav"
+  ]
+}
