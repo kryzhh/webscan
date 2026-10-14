@@ -45,7 +45,7 @@ const VulCard = ({ text }) => {
           })
         }
         
-        <p className='text-muted-foreground text-sm font-mono'>Verify recommendations from a cybersec expert before applying changes.</p>
+        <p className='text-muted-foreground text-sm font-mono'>Verify recommendations from a cybersec expert before applying any changes.</p>
 
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { OpenRouter } from "@openrouter/sdk";
 
 const openrouter = new OpenRouter({
-    apiKey: import.meta.env.API_KEY
+    apiKey: import.meta.env.VITE_OPENROUTER_API_KEY
 });
 
 
@@ -35,7 +35,6 @@ Analyze the following Nikto log and explain it using simple, everyday language t
 ${log}
 
 `
-
     const response = await openrouter.chat.send({
         chatRequest: {
             model: "openrouter/free",
