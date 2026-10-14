@@ -1,28 +1,23 @@
-import Footer from "../components/Footer"
-import Home from "../components/Home"
-import NavBar from "../components/NavBar"
+import { useContext } from "react"
+import Form from "../components/Form"
+import LoadingBar from "../components/LoadingBar"
+import Results from "../components/Results"
+import ContextInit from "../context/ContextInit"
 
 
 function App() {
-
-  window.addEventListener('resize', () => {
-    if (window.innerWidth < 640) {
-      document.getElementById("content").style.transform = "translateY(-28vh)"
-      document.getElementById("content").style.transition = "transform 0s"
-    }
-    else {
-      document.getElementById("content").style.transform = "translateY(0vh)"
-      document.getElementById("content").style.transition = "transform 0s"
-    }
-  })
+  const {Loading} = useContext(ContextInit);
   return (
     <>
-      <NavBar />
-      <div className="translate-y-[-28vh] sm:translate-y-[0vh] absolute w-full" id="content">
-        <h1 className="text-4xl font-semibold text-center mb-12 pt-10">WebScan - Web Vulnerability Scanner</h1>
-        <div className="home flex h-full justify-evenly max-[1050px]:flex-col-reverse px-20 max-sm:px-8"><Home /></div>
-        <div className="footer mt-6 mb-[-16px]">
-          <Footer/>
+      <div className="px-36 pt-20 max-[850px]:px-18 max-[530px]:px-5">
+        <p className="text-foreground text-4xl font-mono tracking-tight font-semibold">Vulnerability Scanner</p>
+        <p className="text-muted-foreground mt-5 tracking-wider w-160 text-sm max-[745px]:w-full">Enter an IP address or URL to scan for common security vulnerabilities. Results are for informational purposes only.</p>
+        <div className="w-241 max-[1345px]:w-200 max-[1135px]:w-150 max-[745px]:w-full">
+          <Form />
+          <div className="min-h-38">
+            <LoadingBar Loading={Loading}/>
+            <Results />
+          </div>
         </div>
       </div>
     </>

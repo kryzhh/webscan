@@ -151,16 +151,16 @@ Some Linux distros now also manage packages externally, for those, you can eithe
     
     # Need Google API Key, it will be stored in .config
     global API_KEY
-    API_KEY = input(f"""
-{YELLOW}This project uses Google's Search API to get you results regarding the vulnerability in your webapp. {BRIGHT_YELLOW}You will need an API Key. You can get your own API Key for free at https://developers.google.com/custom-search/v1/introduction{YELLOW} .
+    API_KEY = input(f"""\
+{YELLOW}This project uses OpenRouter API to generate simple explanations of vulnerabilities found in your webapp. {BRIGHT_YELLOW}You will need an API Key. You can get your own API Key by signing up at https://openrouter.ai/{YELLOW}.
 Get an API Key and enter it here.{RESET}""").strip()
-    if len(API_KEY) != 39:
-        while len(API_KEY) != 39:
+    if not API_KEY or len(API_KEY) != 73:
+        while not API_KEY or len(API_KEY) != 73:
             API_KEY = input(f"{RED}Enter a valid API Key: {RESET}").strip()
-    else:    
+    else:
         print(BRIGHT_GREEN + "\nAll requirements have been successfully installed.\n" + RESET)
         print(MAGENTA + "Creating up config file...." + RESET)
-        config_file() # Generating config file           
+        config_file()  # Generating config file
         print(BRIGHT_YELLOW + "\nApp is now ready to use. To run the app, use app.sh\n" + RESET)
 
 

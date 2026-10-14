@@ -1,52 +1,62 @@
-import { useContext, useEffect } from "react"
-import Navbar from "./NavBar"
-import ModeContext from "../context/modeContext"
-import Footer from './Footer.jsx'
-export default function About() {
-  const context = useContext(ModeContext)
-  const { OnReloadMode } = context
-  useEffect(() => {
-    OnReloadMode()
-  }, [])
 
 
-  window.addEventListener('resize', () => {
-    if (window.innerWidth < 640) {
-      document.getElementById("content").style.transform = "translateY(-28vh)"
-      document.getElementById("content").style.transition = "transform 0s"
-    }
-    else {
-      document.getElementById("content").style.transform = "translateY(0vh)"
-      document.getElementById("content").style.transition = "transform 0s"
-    }
-  })
-
+const HIWCard = ({ pos, title, desc }) => {
   return (
-    <>
-      <Navbar />
-      <div className="bg-[#f6faff] absolute text-blue-950 translate-y-[-28vh] sm:translate-y-[0vh] max-sm:px-8 text-justify px-20 pt-10 text-xl h-fit " id="content">
-        <div className="about h-[100vh]">
-          Vulnerabilities in apps are a significant issue due to their potential to expose sensitive user data and disrupt services. Flaws in app design can be exploited by attackers to gain unauthorized access, leading to data breaches, financial loss, and privacy violations. With apps being integral to personal and business operations, any weakness can be a gateway for cyber threats.
-
-          <br /><br />
-
-          If you ever feel the risk of Vulnerability in any app, be sure to use this tool WebScan. It is a FOSS tool designed in such a way that it can detect the Vulnerabilities in a WebApp and immediately informs you about the same. Supported by GUI through React, WebScan is built on python backend.
-          This makes the app easier to use, as you can read the logs in a layman language. This is done by integrating OpenAI, which explains the Vulnerability issue to users, so that they don't have to spend hours reasearching upon the issue.
-
-          <br />
-          <br />
-          This tool is not built or maintained by any company, but by BTech Undergrads, from New Delhi (India).
-          <br />
-          <br />
-          <br />
-          Reach out to us at:.
-          <div className="contact flex items-center space-x-3">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0bGEl9v47XieEtHyj0TqTr1tOXJmib-KHtw&s" alt="LinkedIn" className="h-10 my-2"/>
-          <p>Gaurav Joshi | Krish Mishra | Vaibhav Kathait</p>
-          </div>
-        </div>
-        <div className="footer mx-[-32px] sm:mx-[-80px] max-[522px]:mt-40 max-[416px]:mt-[90vh] max-[292px]:mt-[120vh] mb-[-16px]"><Footer /></div>
-      </div>
-    </>
+    <div className={`bg-card ${pos === 2 ? "min-[675px]:border-l" : "min-[675px]:border-r"} max-[675px]:border border-border w-68 space-y-2 p-5 max-[675px]:w-full`}>
+      <p className="font-mono text-3xl text-accent tracking-wide">0{pos + 1}</p>
+      <p className="font-mono text-foreground tracking-wide">{title}</p>
+      <p className="text-muted-foreground text-xs tracking-wide">{desc}.</p>
+    </div>
   )
 }
+
+const Feature = ({ desc }) => {
+  return (
+    <div className="bg-card border border-border py-3 px-5 flex justify-start items-center space-x-5 w-full">
+      <p className="text-accent">{">"}</p>
+      <p className="text-foreground tracking-wide">{desc}</p>
+    </div>
+  )
+}
+
+const About = () => {
+  const CardsData = [
+    ["Enter Target", "Provide an IP address or URL as the scan target"],
+    ["Configure Scan", "Optionally enable SSL/TLS analysis for certificate and cipher checks"],
+    ["View Results", "Review flagged issues with details and actionable remediation steps"]
+  ];
+  const features = [
+    "Works across multiple platforms, including Windows and Linux",
+    "Scans web servers for potential vulnerabilities using Nikto",
+    "Provides a user-friendly GUI built with Python and React",
+    "Uses Docker/Podman for isolated and reliable scanning",
+    "No account required. Runs directly in your browser",
+    "Supports scanning web servers on a local network",
+  ]
+
+  return (
+    <div className='pt-20 px-36 max-[850px]:px-18 max-[530px]:px-5'>
+      <p className='font-mono text-4xl text-foreground font-bold'>About WebScan</p>
+      <div className='text-muted-foreground w-152 max-[950px]:w-132 mt-3 text-justify text-sm max-[675px]:w-full'>WebScan is a lightweight, client-side vulnerability scanner built for security engineers, developers and system administrators who need fast insight into their exposure surface without standing up complex tooling.</div>
+      <p className='uppercase text-muted-foreground font-mono text-sm mt-13 mb-4'>how it works</p>
+
+      <div className="flex items-stretch max-[675px]:flex-col">
+        {
+          CardsData.map((ele, pos) => {
+            return <HIWCard pos={pos} title={ele[0]} desc={ele[1]} key={pos}/>
+          })
+        }
+      </div>
+      <p className='uppercase text-muted-foreground font-mono text-sm mt-13 mb-4'>features</p>
+      <div className="flex items-stretch flex-col w-232 max-[1245px]:w-full">
+        {
+          features.map((ele, pos) => {
+            return <Feature key={pos} desc={ele} />
+          })
+        }
+      </div>
+    </div>
+  )
+}
+
+export default About

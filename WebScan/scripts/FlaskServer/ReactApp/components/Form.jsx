@@ -1,78 +1,58 @@
-import React, { useContext, useState } from 'react'
-import ModeContext from '../context/modeContext'
+import { useContext, useEffect, useState } from "react"
+import ToggleBtn from "./ToggleBtn"
+import ContextInit from "../context/ContextInit"
+
+
+const FormInput = ({ pos, value, onChange }) => {
+  return <input type="text" className={`border border-border bg-muted placeholder-muted-foreground outline-none focus:border-accent transition text-foreground px-4 py-2.5 font-mono ${pos === 0 ? "w-full" : "max-[750px]:w-full"}`} placeholder={`${pos === 0 ? "IP Address, Eg: 192.168.1.1" : "PORT (optional)"}`} name={`${pos === 0 ? "URL" : "port"}`} autoComplete="off" value={value} onChange={onChange} />
+}
+
 const Form = () => {
+  const {setLoading,setLogs} = useContext(ContextInit)
+  const [Data, setData] = useState({ URL: "", is_https: false, port: "" });
+  const [Validation, setValidation] = useState(false);
 
-  const context = useContext(ModeContext)
-  const { setResult, setLoading } = context
-  const [Data, setData] = useState({ URL: "", is_https: "", port: "" })
-  const [Disabled, setDisabled] = useState(false)
+  const ipRegex = /^(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$/;
+  const portRegex = /^(?:6553[0-5]|655[0-2]\d|65[0-4]\d{2}|6[0-4]\d{3}|[1-5]\d{4}|[1-9]\d{0,3})$/;
 
-  const onchange = (e) => {
-      if (e.target.name==='URL') {
-        if ((e.target.value).includes(".") || (!isNaN(e.target.value) && !isNaN(parseFloat(e.target.value)) || (e.target.value)==='')) {
-          setDisabled(false)
-          setData({ ...Data, [e.target.name]: e.target.value })
-        }
-        else{
-          setDisabled(true)
-        }
-      }
-      if (e.target.name==='port') {
-        if ((!isNaN(e.target.value) && !isNaN(parseFloat(e.target.value)) || (e.target.value)==='')) {
-          if (Number.parseInt(e.target.value)<0 || Number.parseInt(e.target.value)>65535) {
-            setDisabled(true)
-          }
-          else{
-            setDisabled(false)
-            setData({ ...Data, [e.target.name]: e.target.value })
-          }
-        }
-        else{
-          setDisabled(true)
-        }
-      }
-      if (e.target.name==='is_https') {
-        setData({ ...Data, [e.target.name]: e.target.value })
-      }
-  }
 
-  const handleSubmit = async (e) => {
+  const submit = async(e) => {
     e.preventDefault();
-      setLoading("block")
+    if (!(ipRegex.test(Data.URL) && Data.port!==""?portRegex.test(Data.port):true)) {
+      setValidation(true)
+      setTimeout(() => {
+        setValidation(false)
+      }, 3000);
+    }
+    else {
+      // console.log(Data)
+      setLoading(true)
       const resp = await fetch("http://127.0.0.1:5000/Logs", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ Data })
       })
       const jsonResp = await resp.json()
-      setResult(jsonResp)
-      setLoading("none")
+      setLogs(jsonResp.logs)
+      setLoading(false)
     }
+  }
   return (
-    <>
-      <div className="form rounded-lg h-[70vh] w-[36%] max-[1050px]:w-full max-[1050px]:h-fit max-sm:p-2 max-[1050px]:py-4 max-[1050px]:px-2 " style={{ border: "1px solid #dddddd", boxShadow: " 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 5px 1px 0 rgba(0, 0, 0, 0.19)" }}>
-        <div className="heading"><p className='text-2xl font-semibold text-center mt-4'>Get Started</p></div>
-        <form className='text-blue-950 flex flex-col min-[1050px]:mt-[10%] min-[1050px]:justify-between'>
-          <div className="input flex flex-col px-4 my-2">
-            <label htmlFor="url" className={`my-2 ${localStorage.getItem("CurrentMode") === "dark" ? "text-blue-50" : ""}`}>Enter only the IP Address:</label>
-            <input type="text" name='URL' onChange={onchange} value={Data.URL} className={`border border-blue-700 rounded-lg p-2 focus:ring-2 focus:ring-blue-200 focus:outline-none ${localStorage.getItem("CurrentMode") === "dark" ? "bg-transparent text-blue-50" : ""}`} id='url' autoComplete='off'/>
-          </div>
-          <div className="input flex flex-col px-4 my-2">
-            <label htmlFor="port" className={`my-2 ${localStorage.getItem("CurrentMode") === "dark" ? "text-blue-50" : ""}`}>Enter the PORT on which the service is running:</label>
-            <input type="text" name='port' onChange={onchange} value={Data.port} className={`border border-blue-700 rounded-lg p-2 focus:ring-2 focus:ring-blue-200 focus:outline-none ${localStorage.getItem("CurrentMode") === "dark" ? "bg-transparent text-blue-50" : ""}`} id='port' placeholder='Optional' autoComplete='off'/>
-          </div>
-
-          <div className="select flex flex-col px-4 my-2">
-            <label htmlFor="ssl" className={`my-2 ${localStorage.getItem("CurrentMode") === "dark" ? "text-blue-50" : ""}`}>Is the service using HTTPS?</label>
-            <select name="is_https" id="ssl" className={`border border-blue-700 rounded-lg p-2 focus:ring-2 focus:ring-blue-200 focus:outline-none ${localStorage.getItem("CurrentMode") === "dark" ? "bg-transparent text-blue-50" : ""}`} value={Data.is_https} onChange={onchange}>
-              <option value="True" className={`${localStorage.getItem("CurrentMode") === "dark" ? "text-blue-950" : ""}`}>True</option>
-              <option value="False" className={`${localStorage.getItem("CurrentMode") === "dark" ? "text-blue-950" : ""}`}>False</option>
-            </select>
-            <div className="button flex justify-end mt-8"><button disabled={Disabled} className='bg-blue-600 text-blue-50 p-2 rounded-lg disabled:bg-blue-400' onClick={handleSubmit}>Start Scan</button></div>
-          </div>
-        </form>
+    <div className="border border-border bg-card my-10 p-6 max-[750px]:p-3">
+      <div className="flex justify-start items-center space-x-3 max-[750px]:flex-col max-[750px]:space-y-3 max-[750px]:space-x-0">
+        {
+          [0, 1].map((ele) => {
+            return <FormInput pos={ele} key={ele} value={ele === 0 ? Data.URL : Data.port} onChange={(e) => { ele === 0 ? setData({ ...Data, URL: e.target.value }) : setData({ ...Data, port: e.target.value }) }} />
+          })
+        }
+        <button className="transition bg-accent text-background px-7 py-3 cursor-pointer opacity-95 hover:opacity-100 disabled:opacity-50 disabled:cursor-not-allowed max-[750px]:w-full" disabled={Data.URL === ""} onClick={submit}><p className="uppercase text-sm font-mono font-semibold">scan</p></button>
       </div>
-    </>
+      <p className={`text-red-500 text-sm font-mono mt-2.5 ${!Validation ? "hidden" : ""}`}>Enter a valid IP address or URL. If provided, the port must be between 1 and 65535.</p>
+      <div className="flex justify-start items-center space-x-3">
+        <ToggleBtn data={Data.is_https} setData={setData} />
+        <p className="text-muted-foreground font-mono text-sm my-4">SSL / TLS scan</p>
+      </div>
+    </div>
   )
 }
 

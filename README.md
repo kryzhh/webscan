@@ -9,14 +9,14 @@ WebScan is a Python and React based GUI wrapper for Nikto. It is powered by Dock
 
 > [!IMPORTANT]
 > Make sure to download Docker/Podman.
-> Make sure to get a Google Search API key, by visiting https://developers.google.com/custom-search/v1/introduction.
+> Make sure to get a openrouter API key, by signing up on https://openrouter.ai/
 
 ## Requirements:
 - Python 3.10+
 - Docker or Podman
 - NodeJS
 - Virtualisation enabled (from the BIOS)
-- Google Search API key: [CHECK IMPORTANT NOTE]
+- openrouter API key: [CHECK IMPORTANT NOTE]
 
 ## How to Run:
 ### Windows:
@@ -43,4 +43,4 @@ WebScan is a Python and React based GUI wrapper for Nikto. It is powered by Dock
 ## Common Troubleshooting
 - Docker not working? Make sure to turn it on everytime you use. Linux users can use `systemctl` or `service` to set it to start Docker automatically on boot.
 - For Linux distros with externally managed environments (for example, ParrotOS), you can manually install Python requirments by going to WebScan/scripts/ and running `pip install -r requirements.txt --break-system-packages`. The packages used in the project should not break any system components (If they did, mine would break too since I use Parrot myself).
-- What to do about SSL option on the app? Check your web server URL, does it have `http://` or `https://`. If `https://` set that option to True, else put it on false.
+- What to do about SSL option on the app? Check your web server URL, does it have `http://` or `https://`. If `https://` then check the confirmation, else leave it as it is.

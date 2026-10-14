@@ -1,15 +1,37 @@
-Write-Output "Activating virtual environment......"
-& "WebScan\.env\bin\Activate.ps1"
+# Define paths relative to this script
+$projectPath = Join-Path $PSScriptRoot "WebScan"
+$venvPython = Join-Path $projectPath ".env\bin\python"
+$flaskPath = Join-Path $projectPath "scripts\FlaskServer"
+$reactPath = Join-Path $flaskPath "ReactApp"
 
-Set-Location -Path "WebScan"
-Push-Location
+# Verify paths
+if (-not (Test-Path $venvPython)) {
+    Write-Error "Python executable not found: $venvPython"
+    exit 1
+}
 
-Set-Location -Path "scripts\FlaskServer"
-Start-Process python.exe -ArgumentList "api.py"
+if (-not (Test-Path (Join-Path $flaskPath "api.py"))) {
+    Write-Error "api.py not found in $flaskPath"
+    exit 1
+}
 
-Set-Location -Path "ReactApp"
-Start-Process npm -ArgumentList 'run', 'dev'
+if (-not (Test-Path $reactPath)) {
+    Write-Error "ReactApp directory not found: $reactPath"
+    exit 1
+}
 
+# Launch Flask API
+Start-Process powershell.exe -ArgumentList @(
+    "-NoExit",
+    "-Command",
+    "Set-Location '$flaskPath'; & python api.py"
+)
 
-Pop-location
-deactivate
+# Launch React development server
+Start-Process powershell.exe -ArgumentList @(
+    "-NoExit",
+    "-Command",
+    "Set-Location '$reactPath'; npm run dev"
+)
+
+Write-Output "Python API and React dev server launched."

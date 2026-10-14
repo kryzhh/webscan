@@ -8,7 +8,7 @@ Set-Location -Path "scripts\FlaskServer\ReactApp"
 Start-Process npm -ArgumentList 'install'
 
 Set-Location -Path "../../"
-python.exe setup.py
+python setup.py
 
 Write-Output "App is now ready to use! ReOpen the terminal window and run .\app.ps1"
 
