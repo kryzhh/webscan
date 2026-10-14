@@ -7,12 +7,12 @@ const AppNav = ({ LinkTo, label }) => {
   return <Link to={LinkTo} className="max-[675px]:hidden"><p className={`text-accent ${loc.pathname === LinkTo ? "text-accent" : "text-muted-foreground hover:text-foreground"} cursor-pointer transition`}>{label}</p></Link>
 }
 
-const Hamburger = () => {
+const Hamburger = ({ MobileMenu, setMobileMenu }) => {
   return (
     <>
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="var(--foreground)" className="size-6 border border-border p-1 min-[675px]:hidden">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" className="hidden"/>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="var(--foreground)" className="size-6 border border-border p-1 min-[675px]:hidden" onClick={()=>{setMobileMenu(prev=>!prev)}}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" className={MobileMenu?"hidden":""}/>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" className={!MobileMenu?"hidden":""} />
       </svg>
     </>
 
@@ -22,7 +22,8 @@ const Hamburger = () => {
 
 const NavBar = () => {
   const loc = useLocation();
-  const [ThemeText, setThemeText] = useState("light")
+  const [ThemeText, setThemeText] = useState("light");
+  const [MobileMenu, setMobileMenu] = useState(false);
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");
@@ -59,18 +60,32 @@ const NavBar = () => {
   }
 
   return (
-    <div className={`font-mono uppercase ${loc.pathname === "/" ? "hidden" : "flex"} justify-between items-center py-5 px-36 border-b border-border tracking-wide max-[850px]:px-18 max-[530px]:px-5`}>
-      <Link to={"/home"}><p className="text-accent opacity-90 hover:opacity-100 transition text-2xl font-semibold cursor-pointer">webscan</p></Link>
-      <div className="text-accent flex justify-between items-center space-x-10 max-[350px]:space-x-3">
+    <>
+      <div className={`font-mono uppercase ${loc.pathname === "/" ? "hidden" : "flex"} justify-between items-center py-5 px-36 border-b border-border tracking-wide max-[850px]:px-18 max-[530px]:px-5`}>
+        <Link to={"/home"}><p className="text-accent opacity-90 hover:opacity-100 transition text-2xl font-semibold cursor-pointer">webscan</p></Link>
+        <div className="text-accent flex justify-between items-center space-x-10 max-[350px]:space-x-3">
+          {
+            ["home", "about", "license"].map((ele, pos) => {
+              return <AppNav LinkTo={`/${ele}`} key={pos} label={ele} />
+            })
+          }
+          <button className="cursor-pointer uppercase text-foreground hover:text-accent border border-border hover:border-accent px-3 py-0.5 transition max-[350px]:text-sm" onClick={toggleTheme}>[ {ThemeText} ]</button>
+          <Hamburger MobileMenu={MobileMenu} setMobileMenu={setMobileMenu} />
+        </div>
+      </div>
+
+
+      {/* mobile menu */}
+      <div className={`min-[675px]:hidden ${!MobileMenu ? "hidden" : ""}`}>
         {
           ["home", "about", "license"].map((ele, pos) => {
-            return <AppNav LinkTo={`/${ele}`} key={pos} label={ele} />
+            return <Link to={ele} key={pos}>
+              <p className={`${loc.pathname.slice(1) === ele ? "bg-muted text-accent" : "text-muted-foreground hover:text-foreground"} border border-b border-border uppercase text-sm font-mono py-3 px-18 max-[530px]:px-5 text-left`} >{ele}</p>
+            </Link>
           })
         }
-        <button className="cursor-pointer uppercase text-foreground hover:text-accent border border-border hover:border-accent px-3 py-0.5 transition max-[350px]:text-sm" onClick={toggleTheme}>[ {ThemeText} ]</button>
-        <Hamburger />
       </div>
-    </div>
+    </>
   )
 }
 
