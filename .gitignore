@@ -3,3 +3,5 @@ links.txt
 .config
 env/
 __pycache__/
+config.bat
+node_modules
